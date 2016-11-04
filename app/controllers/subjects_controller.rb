@@ -1,4 +1,7 @@
 class SubjectsController < ApplicationController
+
+  layout "admin"
+
   def index
     @subjects = Subject.sorted
     # @subjects2 = Subject.where(:visible => true)
