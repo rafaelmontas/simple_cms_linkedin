@@ -3,6 +3,7 @@ class SubjectsController < ApplicationController
   layout "admin"
 
   def index
+    logger.debug("*** Testing the logger. ***")
     @subjects = Subject.sorted
     # @subjects2 = Subject.where(:visible => true)
   end
