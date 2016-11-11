@@ -4,9 +4,10 @@ class SectionsController < ApplicationController
 
 
   before_action :confirm_logged_in
-  
+  before_action :find_page
+
   def index
-    @sections = Section.sorted
+    @sections = @page.sections.sorted
   end
 
   def show
@@ -14,16 +15,17 @@ class SectionsController < ApplicationController
   end
 
   def new
-    @section = Section.new
+    @section = Section.new(:page_id => @page.id)
     @section_count = Section.count + 1
     @pages = Page.sorted
   end
 
   def create
     @section = Section.new(section_params)
+    @section.page = @page
     if @section.save
       flash[:notice] = "Section created successfully."
-      redirect_to (sections_path)
+      redirect_to (sections_path(:page_id => @page.id))
     else
       @section_count = Section.count + 1
       @pages = Page.sorted
@@ -62,6 +64,10 @@ class SectionsController < ApplicationController
 
   private
   def section_params
-    params.require(:section).permit(:page_id, :name, :content_type, :content, :position, :visible)
+    params.require(:section).permit(:name, :content_type, :content, :position, :visible)
+  end
+
+  def find_page
+    @page = Page.find(params[:page_id])
   end
 end
