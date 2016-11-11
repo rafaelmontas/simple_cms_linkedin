@@ -1,11 +1,15 @@
 class AdminUser < ApplicationRecord
 
   # self.table_name = "admin_users"
+  has_secure_password
 
   has_and_belongs_to_many :pages
-
   has_many :section_edits
   has_many :sections, :through => :section_edits
+
+
+  scope :sorted, lambda { order('last_name ASC, first_name ASC')}
+  
 
   EMAIL_REGEX = /\A[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}\Z/i
   FORBIDDEN_USERNAMES = ['littlebopeep','humptydumpty','marymary']
@@ -40,6 +44,10 @@ class AdminUser < ApplicationRecord
 
   validate :username_is_allowed
   validate :no_new_users_on_monday, :on => :create
+
+  def name
+    "#{first_name} #{last_name}"
+  end
 
   private
 

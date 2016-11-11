@@ -1,5 +1,34 @@
 Rails.application.routes.draw do
-  root 'demo#index'
+
+  root :to => 'public#index'
+
+  get 'show/:permalink', :to => 'public#show', :as => 'public_show'
+
+  # get 'admin_users/index'
+  #
+  # get 'admin_users/new'
+  #
+  # get 'admin_users/create'
+  #
+  # get 'admin_users/edit'
+  #
+  # get 'admin_users/update'
+  #
+  # get 'admin_users/delete'
+  #
+  # get 'admin_users/destroy'
+
+  resources :admin_users, :except => [:show] do
+    member do
+      get :delete
+    end
+  end
+
+  get 'admin', :to => 'access#menu'
+  get 'access/menu'
+  get 'access/login'
+  post 'access/attempt_login'
+  get 'access/logout'
 
   resources :sections do
     member do

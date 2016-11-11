@@ -9,7 +9,6 @@ class Section < ApplicationRecord
   scope :sorted, lambda { order("position ASC") }
   scope :newest_first, lambda { order("created_at DESC") }
 
-
   CONTENT_TYPES = ['text', 'HTML']
 
   validates_presence_of :name
