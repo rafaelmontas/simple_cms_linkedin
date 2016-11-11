@@ -1,4 +1,7 @@
 class Section < ApplicationRecord
+
+  acts_as_list :scope => :subject
+
 # belongs_to ....
   belongs_to :page
   has_many :section_edits
